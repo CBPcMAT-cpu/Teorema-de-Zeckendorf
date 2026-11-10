@@ -462,6 +462,7 @@
 
     function renderBank() {
       const bank = document.getElementById('available-coins-bank');
+      if (!bank) return;
       bank.innerHTML = '';
       FIBONACCI.forEach(val => {
         const btn = document.createElement('button');
@@ -512,6 +513,7 @@
 
     function renderSack() {
       const sack = document.getElementById('sack-area');
+      if (!sack) return;
       sack.innerHTML = '';
       const t = i18n[currentLang];
 
@@ -612,6 +614,7 @@
       } else if (tabName === 'magic') {
         document.getElementById('sec-magic').classList.remove('hidden');
         document.getElementById('tab-magic').className = activeBtnClass;
+        renderMagicCards();
       } else if (tabName === 'theory') {
         document.getElementById('sec-theory').classList.remove('hidden');
         document.getElementById('tab-theory').className = activeBtnClass;
@@ -621,6 +624,7 @@
 
     function renderTable() {
       const grid = document.getElementById('table-grid');
+      if (!grid) return;
       grid.innerHTML = '';
       const t = i18n[currentLang];
       let countSolved = 0;
@@ -663,6 +667,7 @@
 
     function renderMagicCards() {
       const container = document.getElementById('cards-container');
+      if (!container) return;
       container.innerHTML = '';
       MAGIC_CARDS.forEach(card => {
         const isSel = magicSelectedCards.has(card.value);
@@ -800,10 +805,8 @@
       }
     }
 
-    // Inicialización al cargar la página
-    document.addEventListener('DOMContentLoaded', () => {
-      setLanguage('ca');
-    });
+    // Inicialització immediata
+    setLanguage('ca');
   </script>
 </body>
 </html>
