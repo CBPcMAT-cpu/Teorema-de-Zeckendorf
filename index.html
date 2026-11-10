@@ -386,7 +386,7 @@
       }
     };
 
-    // ALGORITMO DINÁMICO IMPERFECTO -> PERFECTO (ZECKENDORF)
+    // ALGORITMO GREEDY INFALIBLE DE ZECKENDORF
     function getZeckendorfRepresentation(n) {
       const result = [];
       const fibs = [21, 13, 8, 5, 3, 2, 1];
@@ -400,7 +400,7 @@
       return result;
     }
 
-    // ESTRUCTURA BASE DE LAS 7 TARJETAS (SUS NÚMEROS SE CALCULAN DINÁMICAMENTE A CONTINUACIÓN)
+    // ESTRUCTURA DE LAS 7 TARJETAS (SUS COMPONENTES SE COMPUTAN EN TIEMPO REAL)
     const MAGIC_CARDS_7 = [
       { id: 'A', value: 1, color: 'from-blue-500 to-indigo-600', badge: 'bg-blue-600', numbers: [] },
       { id: 'B', value: 2, color: 'from-emerald-500 to-teal-600', badge: 'bg-emerald-600', numbers: [] },
@@ -411,7 +411,6 @@
       { id: 'G', value: 21, color: 'from-fuchsia-500 to-purple-700', badge: 'bg-fuchsia-600', numbers: [] }
     ];
 
-    // CÁLCULO DINÁMICO MATEMÁTICAMENTE INFALIBLE DE CADA TARJETA (1 A 30)
     function computeCardNumbers() {
       MAGIC_CARDS_7.forEach(card => card.numbers = []);
       for (let i = 1; i <= 30; i++) {
@@ -740,7 +739,6 @@
       });
     }
 
-    // CONTROL INTELIGENTE DE SELECCIÓN (DESMARCA CONSECUTIVOS)
     function toggleMagicCard(val) {
       if (magicSelectedCards.has(val)) {
         magicSelectedCards.delete(val);
