@@ -37,6 +37,15 @@
       background: radial-gradient(circle, #fef3c7 0%, #fde68a 100%);
       border: 4px dashed #b45309;
     }
+
+    /* Targetes Màgiques visualment d'alt impacte */
+    .magic-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .magic-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.12);
+    }
   </style>
 </head>
 <body class="bg-sky-50/50 min-h-screen text-slate-800 flex flex-col font-sans">
@@ -170,38 +179,43 @@
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3" id="table-grid"></div>
     </section>
 
-    <!-- TAB 3: TARGETES MÀGIQUES (CORREGIDAS 100%) -->
-    <section id="sec-magic" class="hidden bg-white p-6 rounded-3xl shadow-sm border-2 border-blue-100 flex flex-col gap-5">
+    <!-- TAB 3: TARGETES MÀGIQUES (7 TARGETES A-G ZECKENDORF 1-30) -->
+    <section id="sec-magic" class="hidden bg-white p-6 sm:p-8 rounded-3xl shadow-sm border-2 border-blue-100 flex flex-col gap-6">
       <div>
-        <h2 class="text-xl font-black text-blue-950" id="magic-title">El Truc de les Targetes Màgiques</h2>
-        <p class="text-slate-600 text-xs sm:text-sm" id="magic-desc">Pensa un nombre de l'1 al 31. Selecciona les targetes on apareix el teu nombre i l'aplicació l'adivinarà.</p>
+        <h2 class="text-2xl font-black text-blue-950 flex items-center gap-2" id="magic-title">
+          ✨ El Truc de les 7 Targetes Màgiques
+        </h2>
+        <p class="text-slate-600 text-xs sm:text-sm mt-1" id="magic-desc">Pensa un nombre de l'1 al 30. Selecciona les targetes on apareix el teu nombre i l'aplicació l'adivinarà a l'instant!</p>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" id="cards-container"></div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" id="cards-container"></div>
 
-      <div class="bg-gradient-to-r from-amber-100 via-amber-200 to-amber-100 p-5 rounded-2xl border-2 border-amber-400 text-center shadow-sm">
-        <p class="text-sm font-bold text-amber-950 uppercase tracking-wider" id="magic-result-label">El teu nombre secret és:</p>
-        <p class="text-5xl font-black text-amber-800 my-1 drop-shadow" id="magic-result">?</p>
+      <div class="bg-gradient-to-r from-amber-50 via-amber-100 to-amber-50 p-6 rounded-3xl border-3 border-amber-400 text-center shadow-md flex flex-col items-center justify-center gap-1">
+        <p class="text-xs font-black text-amber-900 uppercase tracking-widest" id="magic-result-label">El teu nombre secret és:</p>
+        <div class="relative">
+          <p class="text-6xl font-black text-amber-700 drop-shadow-md my-1" id="magic-result">?</p>
+        </div>
+        <p class="text-xs text-amber-800 font-medium" id="magic-result-sub">Fes clic a les targetes de dalt on aparegui el teu nombre</p>
       </div>
     </section>
 
-    <!-- TAB 4: SIMULADOR INTERACTIU I TEOREMA DE ZECKENDORF -->
+    <!-- TAB 4: SIMULADOR INTERACTIU I TEOREMA DE ZECKENDORF (1-30) -->
     <section id="sec-theory" class="hidden bg-white p-6 sm:p-8 rounded-3xl shadow-sm border-2 border-blue-100 flex flex-col gap-6">
       <div class="border-b border-blue-100 pb-4">
         <h2 class="text-2xl font-black text-blue-950 mb-1 flex items-center gap-2" id="sim-title">
           🔮 Simulador del Teorema de Zeckendorf
         </h2>
-        <p class="text-slate-600 text-sm" id="sim-subtitle">Tria qualsevol nombre i mira com es descompon automàticament i quines targetes el contenen.</p>
+        <p class="text-slate-600 text-sm" id="sim-subtitle">Tria qualsevol nombre (1-30) i mira com es descompon automàticament i quines targetes el contenen.</p>
       </div>
 
       <div class="bg-gradient-to-br from-blue-50 to-sky-50 p-6 rounded-3xl border-2 border-blue-200 flex flex-col gap-6 shadow-sm">
         <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-blue-100 shadow-xs">
           <label class="font-bold text-blue-950 text-sm flex items-center gap-2" id="sim-label-select">
-            <span>🔢 Tria un nombre per explorar (1-31):</span>
+            <span>🔢 Tria un nombre per explorar (1-30):</span>
           </label>
           <div class="flex items-center gap-3">
-            <input type="range" id="sim-slider" min="1" max="31" value="19" class="w-32 sm:w-48 accent-blue-600 cursor-pointer" oninput="updateSimulator(this.value)">
-            <input type="number" id="sim-input" min="1" max="31" value="19" class="w-20 text-center font-black text-2xl border-2 border-blue-400 rounded-xl p-1 bg-blue-50 text-blue-950" oninput="updateSimulator(this.value)">
+            <input type="range" id="sim-slider" min="1" max="30" value="19" class="w-32 sm:w-48 accent-blue-600 cursor-pointer" oninput="updateSimulator(this.value)">
+            <input type="number" id="sim-input" min="1" max="30" value="19" class="w-20 text-center font-black text-2xl border-2 border-blue-400 rounded-xl p-1 bg-blue-50 text-blue-950" oninput="updateSimulator(this.value)">
           </div>
         </div>
 
@@ -310,14 +324,14 @@
         victoryTxt: "Excel·lent! Has pagat el preu respectant les regles de Fibonacci.",
         tableTitle: "Full de Registre: Preus de l'1 al 30",
         tableDesc: "Fes clic a qualsevol nombre per resoldre'l a la bossa. Els nombres completats es marcaran en verd.",
-        magicTitle: "El Truc de les Targetes Màgiques",
-        magicDesc: "Pensa un nombre de l'1 al 31. Selecciona les targetes on apareix el teu nombre i l'aplicació l'adivinarà.",
+        magicTitle: "✨ El Truc de les 7 Targetes Màgiques",
+        magicDesc: "Pensa un nombre de l'1 al 30. Selecciona les targetes on apareix el teu nombre i l'aplicació l'adivinarà a l'instant!",
         magicResultLabel: "El teu nombre secret és:",
         emptySack: "La bossa està buida. Afegeix monedes!",
         solvedText: "Completat",
         simTitle: "🔮 Simulador del Teorema de Zeckendorf",
-        simSubtitle: "Tria qualsevol nombre i mira com es descompon automàticament i quines targetes el contenen.",
-        simLabelSelect: "🔢 Tria un nombre per explorar (1-31):",
+        simSubtitle: "Tria qualsevol nombre (1-30) i mira com es descompon automàticament i quines targetes el contenen.",
+        simLabelSelect: "🔢 Tria un nombre per explorar (1-30):",
         simBox1Title: "Descomposició Única de Zeckendorf",
         simBox1Desc: "Les monedes de Fibonacci que sumen aquest nombre (sense veïnes):",
         simBox2Title: "Targetes Màgiques on Apareix",
@@ -351,14 +365,14 @@
         victoryTxt: "¡Excelente! Has pagado el precio respetando las reglas de Fibonacci.",
         tableTitle: "Hoja de Registro: Precios del 1 al 30",
         tableDesc: "Haz clic en cualquier número para resolverlo en la bolsa. Los números completados se marcarán en verde.",
-        magicTitle: "El Truco de las Tarjetas Mágicas",
-        magicDesc: "Piensa un número del 1 al 31. Selecciona las tarjetas donde aparece tu número y la app adivinará cuál es.",
+        magicTitle: "✨ El Truco de las 7 Tarjetas Mágicas",
+        magicDesc: "Piensa un número del 1 al 30. Selecciona las tarjetas donde aparece tu número y la app lo adivinará al instante.",
         magicResultLabel: "Tu número secreto es:",
         emptySack: "La bolsa está vacía. ¡Añade monedas!",
         solvedText: "Completado",
         simTitle: "🔮 Simulador del Teorema de Zeckendorf",
-        simSubtitle: "Elige cualquier número y mira cómo se descompone automáticamente y qué tarjetas lo contienen.",
-        simLabelSelect: "🔢 Elige un número para explorar (1-31):",
+        simSubtitle: "Elige cualquier número (1-30) y mira cómo se descompone automáticamente y qué tarjetas lo contienen.",
+        simLabelSelect: "🔢 Elige un número para explorar (1-30):",
         simBox1Title: "Descomposición Única de Zeckendorf",
         simBox1Desc: "Las monedas de Fibonacci que suman este número (sin vecinas):",
         simBox2Title: "Tarjetas Mágicas donde Aparece",
@@ -631,56 +645,97 @@
       document.getElementById('table-progress-count').innerText = `${countSolved} / 30`;
     }
 
-    // LISTAS DE TARJETAS CORREGIDAS SEGÚN EL TEOREMA DE ZECKENDORF
-    const MAGIC_CARDS = [
-      { id: 'A', value: 1, numbers: [1, 4, 6, 9, 12, 14, 17, 19, 22, 25, 27, 30] },
-      { id: 'B', value: 2, numbers: [2, 7, 10, 15, 17, 20, 23, 28] },
-      { id: 'C', value: 3, numbers: [3, 4, 11, 12, 14, 19, 22, 25, 27] },
-      { id: 'D', value: 5, numbers: [5, 6, 7, 16, 17, 18, 24, 25, 27, 28, 29, 30] },
-      { id: 'E', value: 8, numbers: [8, 9, 10, 11, 12, 24, 25, 27, 29, 30] },
-      { id: 'F', value: 13, numbers: [13, 14, 15, 16, 17, 18, 19, 20, 31] }
+    // 7 TARJETAS CORRESPONDIENTES A ZECKENDORF (VALORES FIBONACCI 1-21, RANGO 1-30)
+    const MAGIC_CARDS_7 = [
+      { id: 'A', value: 1, color: 'from-blue-500 to-indigo-600', badge: 'bg-blue-600', numbers: [1, 4, 6, 9, 12, 14, 17, 19, 22, 25, 27, 30] },
+      { id: 'B', value: 2, color: 'from-emerald-500 to-teal-600', badge: 'bg-emerald-600', numbers: [2, 7, 10, 15, 17, 20, 23, 28] },
+      { id: 'C', value: 3, color: 'from-violet-500 to-purple-600', badge: 'bg-purple-600', numbers: [3, 4, 11, 12, 14, 19, 22, 25, 27] },
+      { id: 'D', value: 5, color: 'from-amber-500 to-orange-600', badge: 'bg-amber-600', numbers: [5, 6, 7, 16, 17, 18, 24, 25, 27, 28, 29, 30] },
+      { id: 'E', value: 8, color: 'from-rose-500 to-pink-600', badge: 'bg-rose-600', numbers: [8, 9, 10, 11, 12, 24, 25, 27, 29, 30] },
+      { id: 'F', value: 13, color: 'from-cyan-500 to-blue-600', badge: 'bg-cyan-600', numbers: [13, 14, 15, 16, 17, 18, 19, 20] },
+      { id: 'G', value: 21, color: 'from-fuchsia-500 to-purple-700', badge: 'bg-fuchsia-600', numbers: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30] }
     ];
 
     function renderMagicCards() {
       const container = document.getElementById('cards-container');
       if (!container) return;
       container.innerHTML = '';
-      MAGIC_CARDS.forEach(card => {
+      
+      MAGIC_CARDS_7.forEach(card => {
         const isSel = magicSelectedCards.has(card.value);
         const el = document.createElement('div');
-        el.className = `p-4 rounded-2xl border-2 cursor-pointer transition flex flex-col justify-between ${
-          isSel ? 'border-amber-600 bg-amber-50 shadow-md' : 'border-blue-100 bg-slate-50/50 hover:border-blue-300'
+        
+        el.className = `magic-card rounded-3xl p-4 border-3 cursor-pointer relative overflow-hidden flex flex-col justify-between ${
+          isSel 
+            ? 'bg-gradient-to-br ' + card.color + ' text-white border-transparent shadow-xl ring-4 ring-offset-2 ring-amber-400' 
+            : 'bg-white border-slate-200 text-slate-800 hover:border-slate-300 shadow-sm'
         }`;
+        
         el.onclick = () => toggleMagicCard(card.value);
 
         el.innerHTML = `
+          <!-- Cabecera -->
           <div class="flex justify-between items-center mb-2">
-            <span class="font-black text-blue-950">Targeta ${card.id}</span>
-            <span class="text-xs px-2.5 py-1 rounded-full font-bold ${isSel ? 'bg-amber-600 text-white' : 'bg-slate-200 text-slate-600'}">
-              ${isSel ? '✓ Seleccionada' : '+ Triar'}
+            <div class="flex items-center gap-2">
+              <span class="w-7 h-7 rounded-2xl flex items-center justify-center font-black text-xs ${isSel ? 'bg-white/20 text-white backdrop-blur-md' : card.badge + ' text-white'} shadow-xs">
+                ${card.id}
+              </span>
+              <span class="font-extrabold text-sm tracking-tight ${isSel ? 'text-white' : 'text-slate-900'}">
+                Targeta ${card.id}
+              </span>
+            </div>
+            <span class="text-[10px] px-2.5 py-0.5 rounded-full font-black uppercase tracking-wider transition ${
+              isSel ? 'bg-amber-400 text-amber-950 shadow-md' : 'bg-slate-100 text-slate-500'
+            }">
+              ${isSel ? '✓ Triada' : '+ Triar'}
             </span>
           </div>
-          <div class="flex flex-wrap gap-1 text-xs text-slate-700 font-mono">
-            ${card.numbers.map(n => `<span class="bg-white px-1.5 py-0.5 rounded border border-slate-200 font-bold">${n}</span>`).join('')}
+
+          <!-- Números impresos -->
+          <div class="flex flex-wrap gap-1 my-2">
+            ${card.numbers.map(n => `
+              <span class="px-2 py-0.5 rounded-lg text-xs font-black transition ${
+                isSel 
+                  ? 'bg-white/20 text-white border border-white/20 backdrop-blur-sm' 
+                  : 'bg-slate-100 text-slate-700 border border-slate-200/60'
+              }">${n}</span>
+            `).join('')}
+          </div>
+
+          <!-- Pie de tarjeta (Valor Oculto/Didáctico) -->
+          <div class="mt-2 pt-2 border-t text-[10px] font-bold flex justify-between items-center ${isSel ? 'border-white/20 text-white/80' : 'border-slate-100 text-slate-400'}">
+            <span>Base Fibonacci:</span>
+            <span class="text-xs font-black ${isSel ? 'text-amber-300' : 'text-slate-700'}">${card.value}</span>
           </div>
         `;
         container.appendChild(el);
       });
     }
 
+    // CONTROL INTELIGENTE DE SELECCIÓN (DESMARCA CONSECUTIVOS)
     function toggleMagicCard(val) {
       if (magicSelectedCards.has(val)) {
         magicSelectedCards.delete(val);
       } else {
+        const valIdx = FIBONACCI.indexOf(val);
+        const toDelete = [];
+        magicSelectedCards.forEach(activeVal => {
+          const activeIdx = FIBONACCI.indexOf(activeVal);
+          if (Math.abs(activeIdx - valIdx) === 1) {
+            toDelete.push(activeVal);
+          }
+        });
+        toDelete.forEach(dVal => magicSelectedCards.delete(dVal));
         magicSelectedCards.add(val);
       }
       renderMagicCards();
 
-      const total = Array.from(magicSelectedCards).reduce((a, b) => a + b, 0);
-      document.getElementById('magic-result').innerText = total > 0 ? total : '?';
+      let total = Array.from(magicSelectedCards).reduce((a, b) => a + b, 0);
+      const resEl = document.getElementById('magic-result');
+      resEl.innerText = (total > 0 && total <= 30) ? total : '?';
     }
 
-    // LÓGICA DEL SIMULADOR DE ZECKENDORF (DESCOMPOSICIÓN GREEDY)
+    // LÓGICA ZECKENDORF GREEDY (1-30)
     function getZeckendorfRepresentation(n) {
       const result = [];
       const fibs = [21, 13, 8, 5, 3, 2, 1];
@@ -702,7 +757,7 @@
     function updateSimulator(val) {
       let num = parseInt(val);
       if (isNaN(num) || num < 1) num = 1;
-      if (num > 31) num = 31;
+      if (num > 30) num = 30;
 
       const slider = document.getElementById('sim-slider');
       const input = document.getElementById('sim-input');
@@ -737,7 +792,7 @@
         cardsContainer.innerHTML = '';
         const activeCardIDs = [];
 
-        MAGIC_CARDS.forEach(card => {
+        MAGIC_CARDS_7.forEach(card => {
           const contains = zeckCoins.includes(card.value);
           if (contains) activeCardIDs.push(`${card.id} (${card.value})`);
 
@@ -754,9 +809,7 @@
         const cardsSummaryEl = document.getElementById('sim-cards-summary');
         if (cardsSummaryEl) {
           const cardsTxt = currentLang === 'ca' ? 'Apareix a les targetes: ' : 'Aparece en las tarjetas: ';
-          cardsSummaryEl.innerText = activeCardIDs.length > 0 
-            ? cardsTxt + activeCardIDs.join(', ')
-            : (currentLang === 'ca' ? 'Només necessita la moneda de 21' : 'Solo necesita la moneda de 21');
+          cardsSummaryEl.innerText = cardsTxt + activeCardIDs.join(', ');
         }
       }
 
