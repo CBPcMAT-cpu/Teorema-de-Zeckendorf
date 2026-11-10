@@ -7,49 +7,66 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <style>
+    /* Estil base per a les monedes (cercles perfectes i centrats) */
     .coin {
+      border-radius: 9999px !important;
+      aspect-ratio: 1 / 1 !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
       transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      flex-shrink: 0 !important;
     }
     .coin:hover {
       transform: translateY(-5px) scale(1.08);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
     }
     .coin:active {
       transform: translateY(0) scale(0.95);
     }
+
+    /* Mides progressives de menor a major segons el valor de la moneda */
+    .coin-val-1  { width: 44px !important; height: 44px !important; font-size: 0.95rem !important; }
+    .coin-val-2  { width: 48px !important; height: 48px !important; font-size: 1.05rem !important; }
+    .coin-val-3  { width: 52px !important; height: 52px !important; font-size: 1.15rem !important; }
+    .coin-val-5  { width: 56px !important; height: 56px !important; font-size: 1.25rem !important; }
+    .coin-val-8  { width: 62px !important; height: 62px !important; font-size: 1.35rem !important; }
+    .coin-val-13 { width: 68px !important; height: 68px !important; font-size: 1.45rem !important; }
+    .coin-val-21 { width: 74px !important; height: 74px !important; font-size: 1.55rem !important; }
+
     .sack-drop {
-      background: radial-gradient(circle, #fef08a 0%, #fde047 100%);
-      border: 4px dashed #ca8a04;
+      background: radial-gradient(circle, #fef3c7 0%, #fde68a 100%);
+      border: 4px dashed #b45309;
     }
     .gradient-header {
-      background: linear-gradient(135deg, #059669 0%, #10b981 50%, #047857 100%);
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 50%, #1e1b4b 100%);
     }
   </style>
 </head>
-<body class="bg-emerald-50/50 min-h-screen text-slate-800 flex flex-col font-sans">
+<body class="bg-slate-50 min-h-screen text-slate-800 flex flex-col font-sans">
 
-  <!-- Header con diseño verde original -->
-  <header class="gradient-header text-white shadow-lg border-b-4 border-emerald-700">
+  <!-- Header en blau clar/fosc subtil -->
+  <header class="gradient-header text-white shadow-lg border-b-4 border-blue-900">
     <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
       <div class="flex items-center gap-3">
-        <div class="w-12 h-12 bg-amber-400 text-emerald-950 rounded-full flex items-center justify-center text-2xl font-black shadow-inner border-2 border-amber-300">
+        <div class="w-12 h-12 bg-amber-600 text-white rounded-full flex items-center justify-center text-2xl font-black shadow-inner border-2 border-amber-400 shrink-0">
           F
         </div>
         <div>
           <div class="flex items-center gap-2">
-            <h1 class="text-2xl md:text-3xl font-black tracking-tight drop-shadow" id="app-title">Monedes de Fibonàcia</h1>
-            <span class="bg-amber-400 text-emerald-950 text-xs font-black px-2 py-0.5 rounded-full uppercase shadow">PCMAT 6è</span>
+            <h1 class="text-2xl md:text-3xl font-black tracking-tight drop-shadow text-slate-100" id="app-title">Monedes de Fibonàcia</h1>
+            <span class="bg-amber-700 text-amber-100 text-xs font-black px-2 py-0.5 rounded-full uppercase shadow">PCMAT 6è</span>
           </div>
-          <p class="text-emerald-100 text-xs md:text-sm font-medium" id="app-subtitle">Teorema de Zeckendorf i Exploració Matemàtica</p>
+          <p class="text-slate-300 text-xs md:text-sm font-medium" id="app-subtitle">Teorema de Zeckendorf i Exploració Matemàtica</p>
         </div>
       </div>
       
       <!-- Selector de Idioma -->
-      <div class="flex items-center bg-emerald-900/60 rounded-xl p-1.5 border border-emerald-400/40 text-sm shadow-inner">
-        <button id="lang-ca" onclick="setLanguage('ca')" class="px-3 py-1.5 rounded-lg font-bold transition bg-amber-400 text-emerald-950 shadow">
+      <div class="flex items-center bg-slate-900/80 rounded-xl p-1.5 border border-slate-700 text-sm shadow-inner">
+        <button id="lang-ca" onclick="setLanguage('ca')" class="px-3 py-1.5 rounded-lg font-bold transition bg-amber-600 text-white shadow">
           🐱 Català
         </button>
-        <button id="lang-es" onclick="setLanguage('es')" class="px-3 py-1.5 rounded-lg font-bold transition text-emerald-100 hover:text-white">
+        <button id="lang-es" onclick="setLanguage('es')" class="px-3 py-1.5 rounded-lg font-bold transition text-slate-300 hover:text-white">
           🇪🇸 Castellano
         </button>
       </div>
@@ -59,18 +76,18 @@
   <!-- Main Container -->
   <main class="max-w-6xl mx-auto px-4 py-6 flex-1 w-full flex flex-col gap-6">
 
-    <!-- Tab Navigation con estilo vistoso -->
-    <div class="flex flex-wrap border-b-2 border-emerald-200 gap-2">
-      <button onclick="switchTab('sack')" id="tab-sack" class="px-5 py-3 font-extrabold rounded-t-xl bg-emerald-600 text-white shadow-md transition-all flex items-center gap-2">
+    <!-- Tab Navigation -->
+    <div class="flex flex-wrap border-b-2 border-slate-300 gap-2">
+      <button onclick="switchTab('sack')" id="tab-sack" class="px-5 py-3 font-extrabold rounded-t-xl bg-slate-800 text-white shadow-md transition-all flex items-center gap-2">
         <i class="fa-solid fa-sack-dollar"></i> <span id="tab-sack-txt">La Bossa</span>
       </button>
-      <button onclick="switchTab('table')" id="tab-table" class="px-5 py-3 font-extrabold rounded-t-xl bg-emerald-100 text-emerald-900 hover:bg-emerald-200 transition-all flex items-center gap-2">
-        <i class="fa-solid fa-[#list-check]"></i> <span id="tab-table-txt">Taula 1-30</span>
+      <button onclick="switchTab('table')" id="tab-table" class="px-5 py-3 font-extrabold rounded-t-xl bg-slate-200 text-slate-800 hover:bg-slate-300 transition-all flex items-center gap-2">
+        <i class="fa-solid fa-list-check"></i> <span id="tab-table-txt">Taula 1-30</span>
       </button>
-      <button onclick="switchTab('magic')" id="tab-magic" class="px-5 py-3 font-extrabold rounded-t-xl bg-emerald-100 text-emerald-900 hover:bg-emerald-200 transition-all flex items-center gap-2">
+      <button onclick="switchTab('magic')" id="tab-magic" class="px-5 py-3 font-extrabold rounded-t-xl bg-slate-200 text-slate-800 hover:bg-slate-300 transition-all flex items-center gap-2">
         <i class="fa-solid fa-wand-magic-sparkles"></i> <span id="tab-magic-txt">Targetes Màgiques</span>
       </button>
-      <button onclick="switchTab('theory')" id="tab-theory" class="px-5 py-3 font-extrabold rounded-t-xl bg-emerald-100 text-emerald-900 hover:bg-emerald-200 transition-all flex items-center gap-2">
+      <button onclick="switchTab('theory')" id="tab-theory" class="px-5 py-3 font-extrabold rounded-t-xl bg-slate-200 text-slate-800 hover:bg-slate-300 transition-all flex items-center gap-2">
         <i class="fa-solid fa-book-open"></i> <span id="tab-theory-txt">Què és?</span>
       </button>
     </div>
@@ -79,57 +96,57 @@
     <section id="sec-sack" class="grid grid-cols-1 md:grid-cols-12 gap-6">
       
       <!-- Panel de Selección -->
-      <div class="md:col-span-5 bg-white p-6 rounded-3xl shadow-sm border-2 border-emerald-100 flex flex-col gap-5">
+      <div class="md:col-span-5 bg-white p-6 rounded-3xl shadow-sm border-2 border-slate-200 flex flex-col gap-5">
         <div>
-          <h2 class="text-xl font-black text-emerald-950 mb-1 flex items-center gap-2" id="target-title">
-            <span class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center text-sm">1</span>
+          <h2 class="text-xl font-black text-slate-900 mb-1 flex items-center gap-2" id="target-title">
+            <span class="w-7 h-7 rounded-full bg-slate-800 text-white flex items-center justify-center text-sm shrink-0">1</span>
             Tria el Preu Objectiu
           </h2>
           <p class="text-slate-600 text-xs sm:text-sm" id="target-desc">Tria quina quantitat vols pagar utilitzant les monedes de Fibonacci.</p>
         </div>
 
         <div class="flex items-center gap-3">
-          <input type="number" id="target-price" min="1" max="30" value="7" class="w-28 text-3xl font-black text-center border-4 border-amber-400 rounded-2xl p-2 bg-amber-50 text-emerald-950 focus:outline-none focus:ring-4 focus:ring-amber-300 shadow-inner">
-          <button onclick="randomizeTarget()" class="bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-emerald-950 px-4 py-3 rounded-2xl font-black text-sm shadow transition flex items-center gap-1.5">
+          <input type="number" id="target-price" min="1" max="30" value="7" class="w-28 text-3xl font-black text-center border-4 border-amber-600 rounded-2xl p-2 bg-amber-50 text-slate-900 focus:outline-none focus:ring-4 focus:ring-amber-400 shadow-inner">
+          <button onclick="randomizeTarget()" class="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white px-4 py-3 rounded-2xl font-black text-sm shadow transition flex items-center gap-1.5">
             🎲 <span id="btn-random">Aleatori</span>
           </button>
         </div>
 
-        <hr class="border-emerald-100">
+        <hr class="border-slate-200">
 
         <div>
-          <h3 class="font-bold text-emerald-950 mb-1" id="coins-avail-title">Monedes Disponibles</h3>
+          <h3 class="font-bold text-slate-900 mb-1" id="coins-avail-title">Monedes Disponibles</h3>
           <p class="text-xs text-slate-500 mb-3" id="coins-avail-desc">Fes clic en una moneda per posar-la a la bossa.</p>
-          <div class="flex flex-wrap gap-2.5" id="available-coins-bank"></div>
+          <div class="flex flex-wrap gap-3 items-center justify-start min-h-[90px]" id="available-coins-bank"></div>
         </div>
       </div>
 
       <!-- La Bossa e Indicadores -->
-      <div class="md:col-span-7 bg-white p-6 rounded-3xl shadow-sm border-2 border-emerald-100 flex flex-col justify-between gap-5">
+      <div class="md:col-span-7 bg-white p-6 rounded-3xl shadow-sm border-2 border-slate-200 flex flex-col justify-between gap-5">
         <div>
           <div class="flex justify-between items-center mb-3">
-            <h2 class="text-xl font-black text-emerald-950 flex items-center gap-2" id="sack-title">
-              <span class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center text-sm">2</span>
+            <h2 class="text-xl font-black text-slate-900 flex items-center gap-2" id="sack-title">
+              <span class="w-7 h-7 rounded-full bg-slate-800 text-white flex items-center justify-center text-sm shrink-0">2</span>
               La teva Bossa de Monedes
             </h2>
-            <button onclick="clearSack()" class="text-xs text-red-600 hover:text-red-800 font-bold bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-xl border border-red-200 transition">
+            <button onclick="clearSack()" class="text-xs text-red-700 hover:text-red-900 font-bold bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-xl border border-red-200 transition">
               🗑️ <span id="btn-clear">Buidar Bossa</span>
             </button>
           </div>
 
           <!-- Area visual de la bolsa -->
-          <div class="sack-drop min-h-[180px] rounded-3xl p-5 flex flex-wrap gap-3 items-center justify-center relative shadow-inner" id="sack-area"></div>
+          <div class="sack-drop min-h-[200px] rounded-3xl p-5 flex flex-wrap gap-4 items-center justify-center relative shadow-inner" id="sack-area"></div>
         </div>
 
         <!-- Feedback & Validaciones -->
-        <div class="bg-emerald-50/80 rounded-2xl p-4 border border-emerald-200 flex flex-col gap-3" id="feedback-panel">
+        <div class="bg-slate-100/90 rounded-2xl p-4 border border-slate-300 flex flex-col gap-3" id="feedback-panel">
           <div class="flex justify-between items-center font-black">
-            <span id="label-total" class="text-emerald-900 text-base">Suma actual:</span>
-            <span id="current-sum" class="text-3xl text-emerald-950">0 / 7</span>
+            <span id="label-total" class="text-slate-800 text-base">Suma actual:</span>
+            <span id="current-sum" class="text-3xl text-slate-900">0 / 7</span>
           </div>
 
           <!-- Banner de Victoria -->
-          <div id="victory-banner" class="hidden bg-emerald-500 text-white px-4 py-2.5 rounded-xl font-extrabold text-center text-sm shadow">
+          <div id="victory-banner" class="hidden bg-emerald-600 text-white px-4 py-2.5 rounded-xl font-extrabold text-center text-sm shadow">
             🎉 <span id="victory-txt">Excel·lent! Has pagat el preu respectant les regles de Fibonacci.</span>
           </div>
 
@@ -150,14 +167,14 @@
     </section>
 
     <!-- TAB 2: REPTES 1-30 -->
-    <section id="sec-table" class="hidden bg-white p-6 rounded-3xl shadow-sm border-2 border-emerald-100">
+    <section id="sec-table" class="hidden bg-white p-6 rounded-3xl shadow-sm border-2 border-slate-200">
       <div class="mb-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
         <div>
-          <h2 class="text-xl font-black text-emerald-950" id="table-title">Full de Registre: Preus de l'1 al 30</h2>
+          <h2 class="text-xl font-black text-slate-900" id="table-title">Full de Registre: Preus de l'1 al 30</h2>
           <p class="text-slate-600 text-xs sm:text-sm" id="table-desc">Fes clic a qualsevol nombre per resoldre'l a la bossa. Els nombres completats es marcaran en verd.</p>
         </div>
         <div class="bg-amber-100 border border-amber-300 px-4 py-2 rounded-2xl text-amber-900 font-extrabold text-sm flex items-center gap-2">
-          <span>🏆 Progress:</span>
+          <span>🏆 Progrés:</span>
           <span id="table-progress-count" class="text-amber-950 text-base">0 / 30</span>
         </div>
       </div>
@@ -166,9 +183,9 @@
     </section>
 
     <!-- TAB 3: TARGETES MÀGIQUES (6 TARGETES A-F) -->
-    <section id="sec-magic" class="hidden bg-white p-6 rounded-3xl shadow-sm border-2 border-emerald-100 flex flex-col gap-5">
+    <section id="sec-magic" class="hidden bg-white p-6 rounded-3xl shadow-sm border-2 border-slate-200 flex flex-col gap-5">
       <div>
-        <h2 class="text-xl font-black text-emerald-950" id="magic-title">El Truc de les Targetes Màgiques</h2>
+        <h2 class="text-xl font-black text-slate-900" id="magic-title">El Truc de les Targetes Màgiques</h2>
         <p class="text-slate-600 text-xs sm:text-sm" id="magic-desc">Pensa un nombre de l'1 al 31. Selecciona les targetes on apareix el teu nombre i l'aplicació l'adivinarà.</p>
       </div>
 
@@ -176,14 +193,14 @@
 
       <div class="bg-gradient-to-r from-amber-100 via-amber-200 to-amber-100 p-5 rounded-2xl border-2 border-amber-400 text-center shadow-sm">
         <p class="text-sm font-bold text-amber-950 uppercase tracking-wider" id="magic-result-label">El teu nombre secret és:</p>
-        <p class="text-5xl font-black text-amber-700 my-1 drop-shadow" id="magic-result">?</p>
+        <p class="text-5xl font-black text-amber-800 my-1 drop-shadow" id="magic-result">?</p>
       </div>
     </section>
 
     <!-- TAB 4: EXPLICACIÓ I TEOREMA DE ZECKENDORF -->
-    <section id="sec-theory" class="hidden bg-white p-6 sm:p-8 rounded-3xl shadow-sm border-2 border-emerald-100 flex flex-col gap-6">
-      <div class="border-b border-emerald-100 pb-4">
-        <h2 class="text-2xl font-black text-emerald-950 mb-2 flex items-center gap-2" id="theory-main-title">
+    <section id="sec-theory" class="hidden bg-white p-6 sm:p-8 rounded-3xl shadow-sm border-2 border-slate-200 flex flex-col gap-6">
+      <div class="border-b border-slate-200 pb-4">
+        <h2 class="text-2xl font-black text-slate-900 mb-2 flex items-center gap-2" id="theory-main-title">
           🧩 El Teorema de Zeckendorf i les Monedes de Fibonàcia
         </h2>
         <p class="text-slate-600 text-sm" id="theory-main-subtitle">Una propietat sorprenent de la successió de Fibonacci explicada per a 6è de Primària.</p>
@@ -191,9 +208,8 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         
-        <!-- Bloc 1: Que diu el teorema -->
-        <div class="bg-emerald-50/60 p-5 rounded-2xl border border-emerald-200">
-          <h3 class="text-lg font-bold text-emerald-900 mb-2 flex items-center gap-2" id="th-box1-title">
+        <div class="bg-slate-100/70 p-5 rounded-2xl border border-slate-300">
+          <h3 class="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2" id="th-box1-title">
             📜 Què diu el Teorema?
           </h3>
           <p class="text-slate-700 text-sm leading-relaxed" id="th-box1-body">
@@ -201,8 +217,7 @@
           </p>
         </div>
 
-        <!-- Bloc 2: Les dues regles -->
-        <div class="bg-amber-50/80 p-5 rounded-2xl border border-amber-200">
+        <div class="bg-amber-50/80 p-5 rounded-2xl border border-amber-300">
           <h3 class="text-lg font-bold text-amber-950 mb-2 flex items-center gap-2" id="th-box2-title">
             🛑 Les Dues Regles del Poble
           </h3>
@@ -214,7 +229,6 @@
 
       </div>
 
-      <!-- Exemple pràctic -->
       <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
         <h3 class="text-lg font-bold text-slate-900 mb-3" id="th-example-title">💡 Exemple pràctic amb el nombre 19:</h3>
         <div class="flex flex-col sm:flex-row items-center gap-4 text-sm">
@@ -222,7 +236,7 @@
             19 = 13 + 5 + 1
           </div>
           <p class="text-slate-600" id="th-example-desc">
-            Comprova les monedes: 13, 5 i 1 són de Fibonacci i no n'hi ha cap de veïna consecutiva (8 i 2 han estat saltats). És la representació perfecta de Zeckendorf!
+            Comprova les monedes: 13, 5 i 1 són de Fibonacci i no n'hi ha cap de veïna consecutiva (el 8 i el 2 han estat saltats). És la representació única de Zeckendorf!
           </p>
         </div>
       </div>
@@ -317,11 +331,11 @@
     function setLanguage(lang) {
       currentLang = lang;
       document.getElementById('lang-ca').className = lang === 'ca' 
-        ? "px-3 py-1.5 rounded-lg font-bold transition bg-amber-400 text-emerald-950 shadow"
-        : "px-3 py-1.5 rounded-lg font-bold transition text-emerald-100 hover:text-white";
+        ? "px-3 py-1.5 rounded-lg font-bold transition bg-amber-600 text-white shadow"
+        : "px-3 py-1.5 rounded-lg font-bold transition text-slate-300 hover:text-white";
       document.getElementById('lang-es').className = lang === 'es' 
-        ? "px-3 py-1.5 rounded-lg font-bold transition bg-amber-400 text-emerald-950 shadow"
-        : "px-3 py-1.5 rounded-lg font-bold transition text-emerald-100 hover:text-white";
+        ? "px-3 py-1.5 rounded-lg font-bold transition bg-amber-600 text-white shadow"
+        : "px-3 py-1.5 rounded-lg font-bold transition text-slate-300 hover:text-white";
       
       updateTexts();
       renderUI();
@@ -335,12 +349,12 @@
       document.getElementById('tab-table-txt').innerText = t.tabTable;
       document.getElementById('tab-magic-txt').innerText = t.tabMagic;
       document.getElementById('tab-theory-txt').innerText = t.tabTheory;
-      document.getElementById('target-title').innerHTML = `<span class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center text-sm">1</span> ${t.targetTitle}`;
+      document.getElementById('target-title').innerHTML = `<span class="w-7 h-7 rounded-full bg-slate-800 text-white flex items-center justify-center text-sm shrink-0">1</span> ${t.targetTitle}`;
       document.getElementById('target-desc').innerText = t.targetDesc;
       document.getElementById('btn-random').innerText = t.btnRandom;
       document.getElementById('coins-avail-title').innerText = t.coinsAvailTitle;
       document.getElementById('coins-avail-desc').innerText = t.coinsAvailDesc;
-      document.getElementById('sack-title').innerHTML = `<span class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center text-sm">2</span> ${t.sackTitle}`;
+      document.getElementById('sack-title').innerHTML = `<span class="w-7 h-7 rounded-full bg-slate-800 text-white flex items-center justify-center text-sm shrink-0">2</span> ${t.sackTitle}`;
       document.getElementById('btn-clear').innerText = t.btnClear;
       document.getElementById('label-total').innerText = t.labelTotal;
       document.getElementById('victory-txt').innerText = t.victoryTxt;
@@ -372,7 +386,7 @@
       bank.innerHTML = '';
       FIBONACCI.forEach(val => {
         const btn = document.createElement('button');
-        btn.className = "coin bg-amber-400 hover:bg-amber-300 text-emerald-950 font-black w-13 h-13 rounded-full border-2 border-amber-600 shadow-md flex items-center justify-center text-lg";
+        btn.className = `coin coin-val-${val} bg-amber-500 hover:bg-amber-400 text-slate-950 font-black border-2 border-amber-700 shadow-md`;
         btn.innerText = val;
         btn.onclick = () => addCoin(val);
         bank.appendChild(btn);
@@ -427,12 +441,12 @@
       } else {
         selectedCoins.forEach((val, idx) => {
           const coin = document.createElement('div');
-          coin.className = "coin bg-amber-400 text-emerald-950 font-black w-13 h-13 rounded-full border-2 border-amber-600 shadow-md flex items-center justify-center text-lg cursor-pointer relative group";
+          coin.className = `coin coin-val-${val} bg-amber-500 text-slate-950 font-black border-2 border-amber-700 shadow-md cursor-pointer relative group`;
           coin.innerText = val;
           coin.onclick = () => removeCoin(idx);
 
           const badge = document.createElement('span');
-          badge.className = "absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition";
+          badge.className = "absolute -top-1 -right-1 bg-red-600 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition shadow font-bold";
           badge.innerText = "✕";
           coin.appendChild(badge);
 
@@ -501,8 +515,8 @@
       document.getElementById('sec-magic').classList.add('hidden');
       document.getElementById('sec-theory').classList.add('hidden');
 
-      const activeBtnClass = "px-5 py-3 font-extrabold rounded-t-xl bg-emerald-600 text-white shadow-md transition-all flex items-center gap-2";
-      const inactiveBtnClass = "px-5 py-3 font-extrabold rounded-t-xl bg-emerald-100 text-emerald-900 hover:bg-emerald-200 transition-all flex items-center gap-2";
+      const activeBtnClass = "px-5 py-3 font-extrabold rounded-t-xl bg-slate-800 text-white shadow-md transition-all flex items-center gap-2";
+      const inactiveBtnClass = "px-5 py-3 font-extrabold rounded-t-xl bg-slate-200 text-slate-800 hover:bg-slate-300 transition-all flex items-center gap-2";
 
       document.getElementById('tab-sack').className = inactiveBtnClass;
       document.getElementById('tab-table').className = inactiveBtnClass;
@@ -538,17 +552,17 @@
 
         const card = document.createElement('div');
         card.className = `p-3.5 rounded-2xl border-2 cursor-pointer transition flex flex-col items-center justify-between shadow-sm ${
-          isSolved ? 'bg-emerald-100/70 border-emerald-400' : 'bg-emerald-50/30 border-slate-200 hover:border-amber-400 hover:bg-amber-50/50'
+          isSolved ? 'bg-emerald-100/70 border-emerald-500' : 'bg-slate-50 border-slate-200 hover:border-amber-600 hover:bg-amber-50/50'
         }`;
         card.onclick = () => selectTargetFromTable(i);
 
         card.innerHTML = `
           <div class="flex justify-between w-full items-center">
-            <span class="text-xs font-black text-emerald-950">PREU ${i}</span>
+            <span class="text-xs font-black text-slate-900">PREU ${i}</span>
             ${isSolved ? `<span class="text-[9px] bg-emerald-600 text-white px-1.5 py-0.5 rounded-full font-bold uppercase">${t.solvedText}</span>` : ''}
           </div>
           <span class="text-base font-black my-2 ${isSolved ? 'text-emerald-900' : 'text-slate-400'}">${coins}</span>
-          <button class="text-[11px] bg-amber-400 text-emerald-950 px-2.5 py-1 rounded-xl font-bold hover:bg-amber-300 w-full text-center shadow-xs">
+          <button class="text-[11px] bg-amber-600 hover:bg-amber-700 text-white px-2.5 py-1 rounded-xl font-bold w-full text-center shadow-xs">
             Provar
           </button>
         `;
@@ -558,7 +572,6 @@
       document.getElementById('table-progress-count').innerText = `${countSolved} / 30`;
     }
 
-    // Las 6 tarjetas (A, B, C, D, E, F) basadas en el PDF original de Zeckendorf / Fibonacci
     const MAGIC_CARDS = [
       { id: 'A', value: 1, numbers: [1, 4, 6, 9, 12, 14, 17, 19, 22, 25, 27, 30] },
       { id: 'B', value: 2, numbers: [2, 7, 10, 15, 17, 20, 23, 28, 31] },
@@ -575,14 +588,14 @@
         const isSel = magicSelectedCards.has(card.value);
         const el = document.createElement('div');
         el.className = `p-4 rounded-2xl border-2 cursor-pointer transition flex flex-col justify-between ${
-          isSel ? 'border-amber-500 bg-amber-50 shadow-md' : 'border-slate-200 bg-slate-50/50 hover:border-emerald-300'
+          isSel ? 'border-amber-600 bg-amber-50 shadow-md' : 'border-slate-200 bg-slate-50/50 hover:border-slate-400'
         }`;
         el.onclick = () => toggleMagicCard(card.value);
 
         el.innerHTML = `
           <div class="flex justify-between items-center mb-2">
-            <span class="font-black text-emerald-950">Targeta ${card.id}</span>
-            <span class="text-xs px-2.5 py-1 rounded-full font-bold ${isSel ? 'bg-amber-400 text-emerald-950' : 'bg-slate-200 text-slate-600'}">
+            <span class="font-black text-slate-900">Targeta ${card.id}</span>
+            <span class="text-xs px-2.5 py-1 rounded-full font-bold ${isSel ? 'bg-amber-600 text-white' : 'bg-slate-200 text-slate-600'}">
               ${isSel ? '✓ Seleccionada' : '+ Triar'}
             </span>
           </div>
@@ -606,7 +619,6 @@
       document.getElementById('magic-result').innerText = total > 0 ? total : '?';
     }
 
-    // Inicialización
     setLanguage('ca');
   </script>
 </body>
