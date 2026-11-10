@@ -42,7 +42,7 @@
 </head>
 <body class="bg-sky-50/50 min-h-screen text-slate-800 flex flex-col font-sans">
 
-  <!-- Header amb el mateix blau exactament que les pestanyes seleccionades (bg-blue-600) -->
+  <!-- Header en blau elèctric (bg-blue-600) -->
   <header class="bg-blue-600 text-white shadow-lg border-b-4 border-blue-800">
     <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
       <div class="flex items-center gap-3">
@@ -52,7 +52,7 @@
         <div>
           <div class="flex items-center gap-2">
             <h1 class="text-2xl md:text-3xl font-black tracking-tight drop-shadow text-white" id="app-title">Monedes de Fibonàcia</h1>
-            <span class="bg-amber-600 text-amber-100 text-xs font-black px-2.5 py-0.5 rounded-full uppercase shadow-sm">PCMAT 6è</span>
+            <span class="bg-amber-600 text-amber-100 text-xs font-black px-2.5 py-0.5 rounded-full uppercase shadow-sm">PCMAT</span>
           </div>
           <p class="text-blue-100 text-xs md:text-sm font-medium" id="app-subtitle">Teorema de Zeckendorf i Exploració Matemàtica</p>
         </div>
@@ -85,7 +85,7 @@
         <i class="fa-solid fa-wand-magic-sparkles"></i> <span id="tab-magic-txt">Targetes Màgiques</span>
       </button>
       <button onclick="switchTab('theory')" id="tab-theory" class="px-5 py-3 font-extrabold rounded-t-xl bg-blue-100/70 text-blue-950 hover:bg-blue-200 transition-all flex items-center gap-2">
-        <i class="fa-solid fa-book-open"></i> <span id="tab-theory-txt">Què és?</span>
+        <i class="fa-solid fa-flask"></i> <span id="tab-theory-txt">Simulador & Teoria</span>
       </button>
     </div>
 
@@ -194,48 +194,83 @@
       </div>
     </section>
 
-    <!-- TAB 4: EXPLICACIÓ I TEOREMA DE ZECKENDORF -->
+    <!-- TAB 4: SIMULADOR INTERACTIU I TEOREMA DE ZECKENDORF -->
     <section id="sec-theory" class="hidden bg-white p-6 sm:p-8 rounded-3xl shadow-sm border-2 border-blue-100 flex flex-col gap-6">
+      
       <div class="border-b border-blue-100 pb-4">
-        <h2 class="text-2xl font-black text-blue-950 mb-2 flex items-center gap-2" id="theory-main-title">
-          🧩 El Teorema de Zeckendorf i les Monedes de Fibonàcia
+        <h2 class="text-2xl font-black text-blue-950 mb-1 flex items-center gap-2" id="sim-title">
+          🔮 Simulador del Teorema de Zeckendorf
         </h2>
-        <p class="text-slate-600 text-sm" id="theory-main-subtitle">Una propietat sorprenent de la successió de Fibonacci explicada per a 6è de Primària.</p>
+        <p class="text-slate-600 text-sm" id="sim-subtitle">Tria qualsevol nombre i mira com es descompon automàticament i quines targetes el contenen.</p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- SIMULADOR INTERACTIVO -->
+      <div class="bg-gradient-to-br from-blue-50 to-sky-50 p-6 rounded-3xl border-2 border-blue-200 flex flex-col gap-6 shadow-sm">
         
-        <div class="bg-blue-50/70 p-5 rounded-2xl border border-blue-200">
-          <h3 class="text-lg font-bold text-blue-950 mb-2 flex items-center gap-2" id="th-box1-title">
-            📜 Què diu el Teorema?
+        <!-- Controles del Simulador -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-blue-100 shadow-xs">
+          <label class="font-bold text-blue-950 text-sm flex items-center gap-2" id="sim-label-select">
+            <span>🔢 Tria un nombre per explorar (1-31):</span>
+          </label>
+          <div class="flex items-center gap-3">
+            <input type="range" id="sim-slider" min="1" max="31" value="19" class="w-32 sm:w-48 accent-blue-600 cursor-pointer" oninput="updateSimulator(this.value)">
+            <input type="number" id="sim-input" min="1" max="31" value="19" class="w-20 text-center font-black text-2xl border-2 border-blue-400 rounded-xl p-1 bg-blue-50 text-blue-950" oninput="updateSimulator(this.value)">
+          </div>
+        </div>
+
+        <!-- Resultados del Simulador -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- Bloque 1: Descomposición en Monedas -->
+          <div class="bg-white p-5 rounded-2xl border border-blue-100 flex flex-col justify-between gap-3 shadow-xs">
+            <div>
+              <h3 class="text-xs font-black uppercase text-blue-900 tracking-wider mb-1" id="sim-box1-title">Descomposició Única de Zeckendorf</h3>
+              <p class="text-xs text-slate-500 mb-3" id="sim-box1-desc">Les monedes de Fibonacci que sumen aquest nombre (sense veïnes):</p>
+              <div id="sim-coins-container" class="flex flex-wrap gap-2.5 items-center justify-start min-h-[60px]"></div>
+            </div>
+            <div class="bg-amber-50 p-3 rounded-xl border border-amber-200 text-xs text-amber-900 font-medium" id="sim-formula">
+              19 = 13 + 5 + 1
+            </div>
+          </div>
+
+          <!-- Bloque 2: Targetas activadas -->
+          <div class="bg-white p-5 rounded-2xl border border-blue-100 flex flex-col justify-between gap-3 shadow-xs">
+            <div>
+              <h3 class="text-xs font-black uppercase text-blue-900 tracking-wider mb-1" id="sim-box2-title">Targetes Màgiques on Apareix</h3>
+              <p class="text-xs text-slate-500 mb-3" id="sim-box2-desc">El nombre només s'imprimeix a les targetes dels seus components:</p>
+              <div id="sim-cards-container" class="flex flex-wrap gap-2 items-center justify-start min-h-[60px]"></div>
+            </div>
+            <div class="bg-blue-50 p-3 rounded-xl border border-blue-200 text-xs text-blue-900 font-medium" id="sim-cards-summary">
+              Apareix a les targetes: F (13), D (5), A (1)
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- EXPLICACIÓN TEÓRICA -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+        
+        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+          <h3 class="text-base font-bold text-slate-900 mb-2 flex items-center gap-2" id="th-box1-title">
+            📜 Per què funciona el Truc?
           </h3>
-          <p class="text-slate-700 text-sm leading-relaxed" id="th-box1-body">
-            El matemàtic belga <strong>Edouard Zeckendorf</strong> va demostrar que <strong>qualsevol nombre enter positiu</strong> es pot escriure de forma ÚNICA com a suma d'un o més nombres de Fibonacci no consecutius.
+          <p class="text-slate-700 text-xs sm:text-sm leading-relaxed" id="th-box1-body">
+            El Teorema de Zeckendorf garanteix que <strong>qualsevol nombre</strong> es pot escriure de manera <strong>ÚNICA</strong> com a suma de nombres de Fibonacci no consecutius. Per això el truc mai falla!
           </p>
         </div>
 
         <div class="bg-amber-50/80 p-5 rounded-2xl border border-amber-300">
-          <h3 class="text-lg font-bold text-amber-950 mb-2 flex items-center gap-2" id="th-box2-title">
-            🛑 Les Dues Regles del Poble
+          <h3 class="text-base font-bold text-amber-950 mb-2 flex items-center gap-2" id="th-box2-title">
+            🛑 Les Dues Regles
           </h3>
-          <ul class="text-slate-700 text-sm space-y-2" id="th-box2-list">
-            <li><strong>1. Moneda única:</strong> No pots repetir cap moneda.</li>
-            <li><strong>2. Mai veïnes:</strong> No pots fer servir dues monedes consecutives de la successió (ex: 3 i 5 ❌, o 5 i 8 ❌).</li>
+          <ul class="text-slate-700 text-xs sm:text-sm space-y-1.5" id="th-box2-list">
+            <li><strong>1. Moneda única:</strong> No es pot repetir cap moneda.</li>
+            <li><strong>2. Mai veïnes:</strong> No es poden usar nombres consecutius de Fibonacci (ex: 3 i 5 ❌).</li>
           </ul>
         </div>
 
-      </div>
-
-      <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
-        <h3 class="text-lg font-bold text-slate-900 mb-3" id="th-example-title">💡 Exemple pràctic amb el nombre 19:</h3>
-        <div class="flex flex-col sm:flex-row items-center gap-4 text-sm">
-          <div class="bg-white p-3 rounded-xl border font-bold text-slate-700 text-center w-full sm:w-auto">
-            19 = 13 + 5 + 1
-          </div>
-          <p class="text-slate-600" id="th-example-desc">
-            Comprova les monedes: 13, 5 i 1 són de Fibonacci i no n'hi ha cap de veïna consecutiva (el 8 i el 2 han estat saltats). És la representació única de Zeckendorf!
-          </p>
-        </div>
       </div>
 
     </section>
@@ -257,7 +292,7 @@
         tabSack: "La Bossa",
         tabTable: "Taula 1-30",
         tabMagic: "Targetes Màgiques",
-        tabTheory: "Què és?",
+        tabTheory: "Simulador & Teoria",
         targetTitle: "Tria el Preu Objectiu",
         targetDesc: "Tria quina quantitat vols pagar utilitzant les monedes de Fibonacci.",
         btnRandom: "Aleatori",
@@ -278,14 +313,17 @@
         magicResultLabel: "El teu nombre secret és:",
         emptySack: "La bossa està buida. Afegeix monedes!",
         solvedText: "Completat",
-        thMainTitle: "🧩 El Teorema de Zeckendorf i les Monedes de Fibonàcia",
-        thMainSubtitle: "Una propietat sorprenent de la successió de Fibonacci explicada per a 6è de Primària.",
-        thBox1Title: "📜 Què diu el Teorema?",
-        thBox1Body: "El matemàtic belga <strong>Edouard Zeckendorf</strong> va demostrar que <strong>qualsevol nombre enter positiu</strong> es pot escriure de forma ÚNICA com a suma d'un o més nombres de Fibonacci no consecutius.",
-        thBox2Title: "🛑 Les Dues Regles del Poble",
-        thBox2List: "<li><strong>1. Moneda única:</strong> No pots repetir cap moneda.</li><li><strong>2. Mai veïnes:</strong> No pots fer servir dues monedes consecutives de la successió (ex: 3 i 5 ❌, o 5 i 8 ❌).</li>",
-        thExTitle: "💡 Exemple pràctic amb el nombre 19:",
-        thExDesc: "Comprova les monedes: 13, 5 i 1 són de Fibonacci i no n'hi ha cap de veïna consecutiva (el 8 i el 2 han estat saltats). És la representació única de Zeckendorf!"
+        simTitle: "🔮 Simulador del Teorema de Zeckendorf",
+        simSubtitle: "Tria qualsevol nombre i mira com es descompon automàticament i quines targetes el contenen.",
+        simLabelSelect: "🔢 Tria un nombre per explorar (1-31):",
+        simBox1Title: "Descomposició Única de Zeckendorf",
+        simBox1Desc: "Les monedes de Fibonacci que sumen aquest nombre (sense veïnes):",
+        simBox2Title: "Targetes Màgiques on Apareix",
+        simBox2Desc: "El nombre només s'imprimeix a les targetes dels seus components:",
+        thBox1Title: "📜 Per què funciona el Truc?",
+        thBox1Body: "El Teorema de Zeckendorf garanteix que <strong>qualsevol nombre</strong> es pot escriure de manera <strong>ÚNICA</strong> com a suma de nombres de Fibonacci no consecutius. Per això el truc mai falla!",
+        thBox2Title: "🛑 Les Dues Regles",
+        thBox2List: "<li><strong>1. Moneda única:</strong> No es pot repetir cap moneda.</li><li><strong>2. Mai veïnes:</strong> No es poden usar nombres consecutius de Fibonacci (ex: 3 i 5 ❌).</li>"
       },
       es: {
         appTitle: "Monedas de Fibonacci",
@@ -293,7 +331,7 @@
         tabSack: "La Bolsa",
         tabTable: "Tabla 1-30",
         tabMagic: "Tarjetas Mágicas",
-        tabTheory: "¿Qué es?",
+        tabTheory: "Simulador y Teoría",
         targetTitle: "Selecciona el Precio Objetivo",
         targetDesc: "Elige qué cantidad quieres pagar usando las monedas de Fibonacci.",
         btnRandom: "Aleatorio",
@@ -314,14 +352,17 @@
         magicResultLabel: "Tu número secreto es:",
         emptySack: "La bolsa está vacía. ¡Añade monedas!",
         solvedText: "Completado",
-        thMainTitle: "🧩 El Teorema de Zeckendorf y las Monedas de Fibonacci",
-        thMainSubtitle: "Una propiedad sorprendente de la sucesión de Fibonacci explicada para 6º de Primaria.",
-        thBox1Title: "📜 ¿Qué dice el Teorema?",
-        thBox1Body: "El matemático belga <strong>Edouard Zeckendorf</strong> demostró que <strong>cualquier número entero positivo</strong> se puede escribir de forma ÚNICA como suma de uno o más números de Fibonacci no consecutivos.",
-        thBox2Title: "🛑 Las Dos Reglas del Pueblo",
-        thBox2List: "<li><strong>1. Moneda única:</strong> No puedes repetir ninguna moneda.</li><li><strong>2. Nunca vecinas:</strong> No puedes usar dos monedas consecutivas de la sucesión (ej: 3 y 5 ❌, o 5 y 8 ❌).</li>",
-        thExTitle: "💡 Ejemplo práctico con el número 19:",
-        thExDesc: "Comprueba las monedas: 13, 5 y 1 son de Fibonacci y no hay ninguna vecina consecutiva (el 8 y el 2 han sido saltados). ¡Es la representación única de Zeckendorf!"
+        simTitle: "🔮 Simulador del Teorema de Zeckendorf",
+        simSubtitle: "Elige cualquier número y mira cómo se descompone automáticamente y qué tarjetas lo contienen.",
+        simLabelSelect: "🔢 Elige un número para explorar (1-31):",
+        simBox1Title: "Descomposición Única de Zeckendorf",
+        simBox1Desc: "Las monedas de Fibonacci que suman este número (sin vecinas):",
+        simBox2Title: "Tarjetas Mágicas donde Aparece",
+        simBox2Desc: "El número solo se imprime en las tarjetas de sus componentes:",
+        thBox1Title: "📜 ¿Por qué funciona el Truco?",
+        thBox1Body: "El Teorema de Zeckendorf garantiza que <strong>cualquier número</strong> se puede escribir de forma <strong>ÚNICA</strong> como suma de números de Fibonacci no consecutivos. ¡Por eso el truco nunca falla!",
+        thBox2Title: "🛑 Las Dos Reglas",
+        thBox2List: "<li><strong>1. Moneda única:</strong> No se puede repetir ninguna moneda.</li><li><strong>2. Nunca vecinas:</strong> No se pueden usar números consecutivos de Fibonacci (ej: 3 y 5 ❌).</li>"
       }
     };
 
@@ -336,6 +377,7 @@
       
       updateTexts();
       renderUI();
+      updateSimulator(document.getElementById('sim-input').value);
     }
 
     function updateTexts() {
@@ -361,14 +403,17 @@
       document.getElementById('magic-desc').innerText = t.magicDesc;
       document.getElementById('magic-result-label').innerText = t.magicResultLabel;
 
-      document.getElementById('theory-main-title').innerText = t.thMainTitle;
-      document.getElementById('theory-main-subtitle').innerText = t.thMainSubtitle;
+      document.getElementById('sim-title').innerText = t.simTitle;
+      document.getElementById('sim-subtitle').innerText = t.simSubtitle;
+      document.getElementById('sim-label-select').innerText = t.simLabelSelect;
+      document.getElementById('sim-box1-title').innerText = t.simBox1Title;
+      document.getElementById('sim-box1-desc').innerText = t.simBox1Desc;
+      document.getElementById('sim-box2-title').innerText = t.simBox2Title;
+      document.getElementById('sim-box2-desc').innerText = t.simBox2Desc;
       document.getElementById('th-box1-title').innerText = t.thBox1Title;
       document.getElementById('th-box1-body').innerHTML = t.thBox1Body;
       document.getElementById('th-box2-title').innerText = t.thBox2Title;
       document.getElementById('th-box2-list').innerHTML = t.thBox2List;
-      document.getElementById('th-example-title').innerText = t.thExTitle;
-      document.getElementById('th-example-desc').innerText = t.thExDesc;
     }
 
     function renderUI() {
@@ -533,6 +578,7 @@
       } else if (tabName === 'theory') {
         document.getElementById('sec-theory').classList.remove('hidden');
         document.getElementById('tab-theory').className = activeBtnClass;
+        updateSimulator(document.getElementById('sim-input').value);
       }
     }
 
@@ -614,6 +660,65 @@
 
       const total = Array.from(magicSelectedCards).reduce((a, b) => a + b, 0);
       document.getElementById('magic-result').innerText = total > 0 ? total : '?';
+    }
+
+    // LÓGICA DEL SIMULADOR DE ZECKENDORF
+    function getZeckendorfRepresentation(n) {
+      const result = [];
+      const fibs = [13, 8, 5, 3, 2, 1];
+      let rem = n;
+      for (let f of fibs) {
+        if (f <= rem) {
+          result.push(f);
+          rem -= f;
+        }
+      }
+      return result;
+    }
+
+    function updateSimulator(val) {
+      let num = parseInt(val);
+      if (isNaN(num) || num < 1) num = 1;
+      if (num > 31) num = 31;
+
+      document.getElementById('sim-slider').value = num;
+      document.getElementById('sim-input').value = num;
+
+      const zeckCoins = getZeckendorfRepresentation(num);
+
+      // Render Monedas
+      const coinsContainer = document.getElementById('sim-coins-container');
+      coinsContainer.innerHTML = '';
+      zeckCoins.forEach(v => {
+        const c = document.createElement('div');
+        c.className = `coin coin-val-${v} bg-amber-500 text-slate-950 font-black border-2 border-amber-700 shadow-md`;
+        c.innerText = v;
+        coinsContainer.appendChild(c);
+      });
+
+      document.getElementById('sim-formula').innerText = `${num} = ${zeckCoins.join(' + ')}`;
+
+      // Render Tarjetas Activadas
+      const cardsContainer = document.getElementById('sim-cards-container');
+      cardsContainer.innerHTML = '';
+      const activeCardIDs = [];
+
+      MAGIC_CARDS.forEach(card => {
+        const contains = zeckCoins.includes(card.value);
+        if (contains) activeCardIDs.push(`${card.id} (${card.value})`);
+
+        const cardBadge = document.createElement('div');
+        cardBadge.className = `px-3 py-1.5 rounded-xl font-extrabold text-xs flex items-center gap-1.5 border ${
+          contains 
+            ? 'bg-blue-600 text-white border-blue-700 shadow-xs' 
+            : 'bg-slate-100 text-slate-400 border-slate-200 opacity-50'
+        }`;
+        cardBadge.innerHTML = `<span>Targeta ${card.id}</span> ${contains ? '✓' : ''}`;
+        cardsContainer.appendChild(cardBadge);
+      });
+
+      const cardsTxt = currentLang === 'ca' ? 'Apareix a les targetes: ' : 'Aparece en las tarjetas: ';
+      document.getElementById('sim-cards-summary').innerText = cardsTxt + activeCardIDs.join(', ');
     }
 
     setLanguage('ca');
