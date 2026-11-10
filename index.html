@@ -218,7 +218,7 @@
           </div>
         </div>
 
-        <!-- Resultados del Simulador: PAS 1, PAS 2 Y PAS 3 -->
+        <!-- Resultados del Simulador -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           
           <!-- PAS 1: Descomposición en Monedas -->
@@ -408,7 +408,10 @@
       
       updateTexts();
       renderUI();
-      updateSimulator(document.getElementById('sim-input').value);
+      const simInput = document.getElementById('sim-input');
+      if (simInput) {
+        updateSimulator(simInput.value);
+      }
     }
 
     function updateTexts() {
@@ -712,7 +715,7 @@
 
     function toggleReflectAnswer() {
       const el = document.getElementById('sim-reflect-answer');
-      el.classList.toggle('hidden');
+      if (el) el.classList.toggle('hidden');
     }
 
     function updateSimulator(val) {
@@ -720,65 +723,87 @@
       if (isNaN(num) || num < 1) num = 1;
       if (num > 31) num = 31;
 
-      document.getElementById('sim-slider').value = num;
-      document.getElementById('sim-input').value = num;
-      document.getElementById('sim-reflect-num').innerText = num;
+      const slider = document.getElementById('sim-slider');
+      const input = document.getElementById('sim-input');
+      const reflectNum = document.getElementById('sim-reflect-num');
+
+      if (slider) slider.value = num;
+      if (input) input.value = num;
+      if (reflectNum) reflectNum.innerText = num;
 
       const zeckCoins = getZeckendorfRepresentation(num);
 
       // Render Monedas
       const coinsContainer = document.getElementById('sim-coins-container');
-      coinsContainer.innerHTML = '';
-      zeckCoins.forEach(v => {
-        const c = document.createElement('div');
-        c.className = `coin coin-val-${v} bg-amber-500 text-slate-950 font-black border-2 border-amber-700 shadow-md`;
-        c.innerText = v;
-        coinsContainer.appendChild(c);
-      });
+      if (coinsContainer) {
+        coinsContainer.innerHTML = '';
+        zeckCoins.forEach(v => {
+          const c = document.createElement('div');
+          c.className = `coin coin-val-${v} bg-amber-500 text-slate-950 font-black border-2 border-amber-700 shadow-md`;
+          c.innerText = v;
+          coinsContainer.appendChild(c);
+        });
+      }
 
-      document.getElementById('sim-formula').innerText = `${num} = ${zeckCoins.join(' + ')}`;
+      const formulaEl = document.getElementById('sim-formula');
+      if (formulaEl) {
+        formulaEl.innerText = `${num} = ${zeckCoins.join(' + ')}`;
+      }
 
       // Render Tarjetas Activadas
       const cardsContainer = document.getElementById('sim-cards-container');
-      cardsContainer.innerHTML = '';
-      const activeCardIDs = [];
+      if (cardsContainer) {
+        cardsContainer.innerHTML = '';
+        const activeCardIDs = [];
 
-      MAGIC_CARDS.forEach(card => {
-        const contains = zeckCoins.includes(card.value);
-        if (contains) activeCardIDs.push(`${card.id} (${card.value})`);
+        MAGIC_CARDS.forEach(card => {
+          const contains = zeckCoins.includes(card.value);
+          if (contains) activeCardIDs.push(`${card.id} (${card.value})`);
 
-        const cardBadge = document.createElement('div');
-        cardBadge.className = `px-3 py-1.5 rounded-xl font-extrabold text-xs flex items-center gap-1.5 border ${
-          contains 
-            ? 'bg-blue-600 text-white border-blue-700 shadow-xs' 
-            : 'bg-slate-100 text-slate-400 border-slate-200 opacity-50'
-        }`;
-        cardBadge.innerHTML = `<span>Targeta ${card.id}</span> ${contains ? '✓' : ''}`;
-        cardsContainer.appendChild(cardBadge);
-      });
+          const cardBadge = document.createElement('div');
+          cardBadge.className = `px-3 py-1.5 rounded-xl font-extrabold text-xs flex items-center gap-1.5 border ${
+            contains 
+              ? 'bg-blue-600 text-white border-blue-700 shadow-xs' 
+              : 'bg-slate-100 text-slate-400 border-slate-200 opacity-50'
+          }`;
+          cardBadge.innerHTML = `<span>Targeta ${card.id}</span> ${contains ? '✓' : ''}`;
+          cardsContainer.appendChild(cardBadge);
+        });
 
-      const cardsTxt = currentLang === 'ca' ? 'Apareix a les targetes: ' : 'Aparece en las tarjetas: ';
-      document.getElementById('sim-cards-summary').innerText = cardsTxt + activeCardIDs.join(', ');
+        const cardsSummaryEl = document.getElementById('sim-cards-summary');
+        if (cardsSummaryEl) {
+          const cardsTxt = currentLang === 'ca' ? 'Apareix a les targetes: ' : 'Aparece en las tarjetas: ';
+          cardsSummaryEl.innerText = cardsTxt + activeCardIDs.join(', ');
+        }
+      }
 
-      // Texto dinámico para la reflexión (Paso 3)
-      if (currentLang === 'ca') {
-        document.getElementById('sim-step3-question').innerHTML = `
-          Si triem el nombre <strong class="text-blue-600 text-base">${num}</strong>... per què és IMPOSSIBLE que aparegui a les altres targetes?
-        `;
-        document.getElementById('sim-reflect-answer-txt').innerHTML = `
-          Perquè el nombre <strong>${num}</strong> té una <strong>única descomposició possible</strong> (${zeckCoins.join(' + ')}). Qualsevol altra combinació violaria les regles de Fibonacci (o repetint monedes o usant monedes veïnes). Per això el Teorema de Zeckendorf garanteix una adreça de targetes 100% única per a cada nombre!
-        `;
-      } else {
-        document.getElementById('sim-step3-question').innerHTML = `
-          Si elegimos el número <strong class="text-blue-600 text-base">${num}</strong>... ¿por qué es IMPOSIBLE que aparezca en las otras tarjetas?
-        `;
-        document.getElementById('sim-reflect-answer-txt').innerHTML = `
-          Porque el número <strong>${num}</strong> tiene una <strong>única descomposición posible</strong> (${zeckCoins.join(' + ')}). Cualquier otra combinación violaría las reglas de Fibonacci (bien repitiendo monedas o usando monedas vecinas). ¡Por eso el Teorema de Zeckendorf garantiza una dirección de tarjetas 100% única para cada número!
-        `;
+      // Actualizar reflexiones del Paso 3
+      const step3Q = document.getElementById('sim-step3-question');
+      const reflectAnsTxt = document.getElementById('sim-reflect-answer-txt');
+      
+      if (step3Q && reflectAnsTxt) {
+        if (currentLang === 'ca') {
+          step3Q.innerHTML = `
+            Si triem el nombre <strong class="text-blue-600 text-base">${num}</strong>... per què és IMPOSSIBLE que aparegui a les altres targetes?
+          `;
+          reflectAnsTxt.innerHTML = `
+            Perquè el nombre <strong>${num}</strong> té una <strong>única descomposició possible</strong> (${zeckCoins.join(' + ')}). Qualsevol altra combinació violaria les regles de Fibonacci (o repetint monedes o usant monedes veïnes). Per això el Teorema de Zeckendorf garanteix una adreça de targetes 100% única per a cada nombre!
+          `;
+        } else {
+          step3Q.innerHTML = `
+            Si elegimos el número <strong class="text-blue-600 text-base">${num}</strong>... ¿por qué es IMPOSIBLE que aparezca en las otras tarjetas?
+          `;
+          reflectAnsTxt.innerHTML = `
+            Porque el número <strong>${num}</strong> tiene una <strong>única descomposición posible</strong> (${zeckCoins.join(' + ')}). Cualquier otra combinación violaría las reglas de Fibonacci (bien repitiendo monedas o usando monedas vecinas). ¡Por eso el Teorema de Zeckendorf garantiza una dirección de tarjetas 100% única para cada número!
+          `;
+        }
       }
     }
 
-    setLanguage('ca');
+    // Inicialización al cargar la página
+    document.addEventListener('DOMContentLoaded', () => {
+      setLanguage('ca');
+    });
   </script>
 </body>
 </html>
