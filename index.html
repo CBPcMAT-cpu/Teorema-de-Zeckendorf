@@ -218,13 +218,16 @@
           </div>
         </div>
 
-        <!-- Resultados del Simulador -->
+        <!-- Resultados del Simulador: PAS 1, PAS 2 Y PAS 3 -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           
-          <!-- Bloque 1: Descomposición en Monedas -->
+          <!-- PAS 1: Descomposición en Monedas -->
           <div class="bg-white p-5 rounded-2xl border border-blue-100 flex flex-col justify-between gap-3 shadow-xs">
             <div>
-              <h3 class="text-xs font-black uppercase text-blue-900 tracking-wider mb-1" id="sim-box1-title">Descomposició Única de Zeckendorf</h3>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold">1</span>
+                <h3 class="text-xs font-black uppercase text-blue-900 tracking-wider" id="sim-box1-title">Descomposició Única de Zeckendorf</h3>
+              </div>
               <p class="text-xs text-slate-500 mb-3" id="sim-box1-desc">Les monedes de Fibonacci que sumen aquest nombre (sense veïnes):</p>
               <div id="sim-coins-container" class="flex flex-wrap gap-2.5 items-center justify-start min-h-[60px]"></div>
             </div>
@@ -233,10 +236,13 @@
             </div>
           </div>
 
-          <!-- Bloque 2: Targetas activadas -->
+          <!-- PAS 2: Targetas activadas -->
           <div class="bg-white p-5 rounded-2xl border border-blue-100 flex flex-col justify-between gap-3 shadow-xs">
             <div>
-              <h3 class="text-xs font-black uppercase text-blue-900 tracking-wider mb-1" id="sim-box2-title">Targetes Màgiques on Apareix</h3>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold">2</span>
+                <h3 class="text-xs font-black uppercase text-blue-900 tracking-wider" id="sim-box2-title">Targetes Màgiques on Apareix</h3>
+              </div>
               <p class="text-xs text-slate-500 mb-3" id="sim-box2-desc">El nombre només s'imprimeix a les targetes dels seus components:</p>
               <div id="sim-cards-container" class="flex flex-wrap gap-2 items-center justify-start min-h-[60px]"></div>
             </div>
@@ -247,9 +253,30 @@
 
         </div>
 
+        <!-- PAS 3: Pregunta de Reflexión e Indagación con Botón Desplegable -->
+        <div class="bg-white p-5 rounded-2xl border-2 border-amber-300 flex flex-col gap-3 shadow-xs">
+          <div class="flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-amber-600 text-white flex items-center justify-center text-xs font-bold">3</span>
+            <h3 class="text-sm font-black text-amber-950 uppercase tracking-wider" id="sim-step3-title">❓ Pregunta de Reflexió per a l'Aula</h3>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-700 font-medium" id="sim-step3-question">
+            Si triem el nombre <strong id="sim-reflect-num" class="text-blue-600 text-base">19</strong>... per què és IMPOSSIBLE que aparegui a la Targeta E (valor 8) o a la Targeta C (valor 3)?
+          </p>
+          <div class="mt-1">
+            <button onclick="toggleReflectAnswer()" class="text-xs bg-amber-600 hover:bg-amber-700 text-white font-bold px-4 py-2 rounded-xl transition shadow-xs flex items-center gap-1.5">
+              <span>💡</span> <span id="sim-btn-answer">Veure explicació didàctica</span>
+            </button>
+            <div id="sim-reflect-answer" class="hidden mt-3 p-4 bg-amber-50 rounded-xl border border-amber-200 text-xs sm:text-sm text-amber-950 leading-relaxed">
+              <p id="sim-reflect-answer-txt">
+                Perquè el $19$ té una <strong>única descomposició possible</strong> ($13 + 5 + 1$). Si utilitzéssim el $8$, necessitaríem combinar-lo amb nombres veïns (com el $5$), violant la regla de no fer servir monedes consecutives. El Teorema de Zeckendorf fa que cada nombre tingui una "adreça de targetes" 100% única.
+              </p>
+            </div>
+          </div>
+        </div>
+
       </div>
 
-      <!-- EXPLICACIÓN TEÓRICA -->
+      <!-- EXPLICACIÓN TEÓRICA SUMMARY -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
         
         <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
@@ -320,6 +347,8 @@
         simBox1Desc: "Les monedes de Fibonacci que sumen aquest nombre (sense veïnes):",
         simBox2Title: "Targetes Màgiques on Apareix",
         simBox2Desc: "El nombre només s'imprimeix a les targetes dels seus components:",
+        simStep3Title: "❓ Pregunta de Reflexió per a l'Aula",
+        simBtnAnswer: "Veure explicació didàctica",
         thBox1Title: "📜 Per què funciona el Truc?",
         thBox1Body: "El Teorema de Zeckendorf garanteix que <strong>qualsevol nombre</strong> es pot escriure de manera <strong>ÚNICA</strong> com a suma de nombres de Fibonacci no consecutius. Per això el truc mai falla!",
         thBox2Title: "🛑 Les Dues Regles",
@@ -359,6 +388,8 @@
         simBox1Desc: "Las monedas de Fibonacci que suman este número (sin vecinas):",
         simBox2Title: "Tarjetas Mágicas donde Aparece",
         simBox2Desc: "El número solo se imprime en las tarjetas de sus componentes:",
+        simStep3Title: "❓ Pregunta de Reflexión para el Aula",
+        simBtnAnswer: "Ver explicación didáctica",
         thBox1Title: "📜 ¿Por qué funciona el Truco?",
         thBox1Body: "El Teorema de Zeckendorf garantiza que <strong>cualquier número</strong> se puede escribir de forma <strong>ÚNICA</strong> como suma de números de Fibonacci no consecutivos. ¡Por eso el truco nunca falla!",
         thBox2Title: "🛑 Las Dos Reglas",
@@ -410,6 +441,9 @@
       document.getElementById('sim-box1-desc').innerText = t.simBox1Desc;
       document.getElementById('sim-box2-title').innerText = t.simBox2Title;
       document.getElementById('sim-box2-desc').innerText = t.simBox2Desc;
+      document.getElementById('sim-step3-title').innerText = t.simStep3Title;
+      document.getElementById('sim-btn-answer').innerText = t.simBtnAnswer;
+
       document.getElementById('th-box1-title').innerText = t.thBox1Title;
       document.getElementById('th-box1-body').innerHTML = t.thBox1Body;
       document.getElementById('th-box2-title').innerText = t.thBox2Title;
@@ -676,6 +710,11 @@
       return result;
     }
 
+    function toggleReflectAnswer() {
+      const el = document.getElementById('sim-reflect-answer');
+      el.classList.toggle('hidden');
+    }
+
     function updateSimulator(val) {
       let num = parseInt(val);
       if (isNaN(num) || num < 1) num = 1;
@@ -683,6 +722,7 @@
 
       document.getElementById('sim-slider').value = num;
       document.getElementById('sim-input').value = num;
+      document.getElementById('sim-reflect-num').innerText = num;
 
       const zeckCoins = getZeckendorfRepresentation(num);
 
@@ -719,6 +759,24 @@
 
       const cardsTxt = currentLang === 'ca' ? 'Apareix a les targetes: ' : 'Aparece en las tarjetas: ';
       document.getElementById('sim-cards-summary').innerText = cardsTxt + activeCardIDs.join(', ');
+
+      // Actualizar texto dinámico de la pregunta de reflexión del paso 3
+      const notInCards = MAGIC_CARDS.filter(c => !zeckCoins.includes(c.value)).map(c => `${c.id} (${c.value})`);
+      if (currentLang === 'ca') {
+        document.getElementById('sim-step3-question').innerHTML = `
+          Si triem el nombre <strong class="text-blue-600 text-base">${num}</strong>... per què és IMPOSSIBLE que aparegui a les targetes no seleccionades com <strong>${notInCards.slice(0, 2).join(' o ')}</strong>?
+        `;
+        document.getElementById('sim-reflect-answer-txt').innerHTML = `
+          Perquè el $${num}$ té una <strong>única descomposició possible</strong> ($${zeckCoins.join(' + ')}$). Qualsevol altra combinació violaria les regles de Fibonacci (o repetint monedes o usant monedes veïnes). Per això el Teorema de Zeckendorf garanteix una adreça de targetes 100% única per a cada nombre!
+        `;
+      } else {
+        document.getElementById('sim-step3-question').innerHTML = `
+          Si elegimos el número <strong class="text-blue-600 text-base">${num}</strong>... ¿por qué es IMPOSIBLE que aparezca en las tarjetas no seleccionadas como <strong>${notInCards.slice(0, 2).join(' o ')}</strong>?
+        `;
+        document.getElementById('sim-reflect-answer-txt').innerHTML = `
+          Porque el $${num}$ tiene una <strong>única descomposición posible</strong> ($${zeckCoins.join(' + ')}$). Cualquier otra combinación violaría las reglas de Fibonacci (bien repitiendo monedas o usando monedas vecinas). ¡Por eso el Teorema de Zeckendorf garantiza una dirección de tarjetas 100% única para cada número!
+        `;
+      }
     }
 
     setLanguage('ca');
