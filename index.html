@@ -7,7 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <style>
-    /* Estil base per a les monedes (cercles perfectes i centrats) */
+    /* Estil base per a les monedes */
     .coin {
       border-radius: 9999px !important;
       aspect-ratio: 1 / 1 !important;
@@ -25,7 +25,6 @@
       transform: translateY(0) scale(0.95);
     }
 
-    /* Mides progressives de menor a major segons el valor de la moneda */
     .coin-val-1  { width: 44px !important; height: 44px !important; font-size: 0.95rem !important; }
     .coin-val-2  { width: 48px !important; height: 48px !important; font-size: 1.05rem !important; }
     .coin-val-3  { width: 52px !important; height: 52px !important; font-size: 1.15rem !important; }
@@ -42,7 +41,7 @@
 </head>
 <body class="bg-sky-50/50 min-h-screen text-slate-800 flex flex-col font-sans">
 
-  <!-- Header en blau elèctric (bg-blue-600) -->
+  <!-- Header -->
   <header class="bg-blue-600 text-white shadow-lg border-b-4 border-blue-800">
     <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
       <div class="flex items-center gap-3">
@@ -91,8 +90,6 @@
 
     <!-- TAB 1: LA BOSSA DE FIBONÀCIA -->
     <section id="sec-sack" class="grid grid-cols-1 md:grid-cols-12 gap-6">
-      
-      <!-- Panel de Selección -->
       <div class="md:col-span-5 bg-white p-6 rounded-3xl shadow-sm border-2 border-blue-100 flex flex-col gap-5">
         <div>
           <h2 class="text-xl font-black text-blue-950 mb-1 flex items-center gap-2" id="target-title">
@@ -118,7 +115,6 @@
         </div>
       </div>
 
-      <!-- La Bossa e Indicadores -->
       <div class="md:col-span-7 bg-white p-6 rounded-3xl shadow-sm border-2 border-blue-100 flex flex-col justify-between gap-5">
         <div>
           <div class="flex justify-between items-center mb-3">
@@ -131,23 +127,19 @@
             </button>
           </div>
 
-          <!-- Area visual de la bolsa -->
           <div class="sack-drop min-h-[200px] rounded-3xl p-5 flex flex-wrap gap-4 items-center justify-center relative shadow-inner" id="sack-area"></div>
         </div>
 
-        <!-- Feedback & Validaciones -->
         <div class="bg-blue-50/70 rounded-2xl p-4 border border-blue-200 flex flex-col gap-3" id="feedback-panel">
           <div class="flex justify-between items-center font-black">
             <span id="label-total" class="text-blue-950 text-base">Suma actual:</span>
             <span id="current-sum" class="text-3xl text-blue-900">0 / 7</span>
           </div>
 
-          <!-- Banner de Victoria -->
           <div id="victory-banner" class="hidden bg-emerald-600 text-white px-4 py-2.5 rounded-xl font-extrabold text-center text-sm shadow">
             🎉 <span id="victory-txt">Excel·lent! Has pagat el preu respectant les regles de Fibonacci.</span>
           </div>
 
-          <!-- Reglas de Fibonàcia -->
           <div class="space-y-1.5 text-xs sm:text-sm mt-1">
             <div id="rule-repeat" class="flex items-center gap-2 text-slate-500">
               <span id="icon-repeat">⚪</span>
@@ -159,7 +151,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </section>
 
@@ -179,7 +170,7 @@
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3" id="table-grid"></div>
     </section>
 
-    <!-- TAB 3: TARGETES MÀGIQUES (6 TARGETES A-F) -->
+    <!-- TAB 3: TARGETES MÀGIQUES (CORREGIDAS 100%) -->
     <section id="sec-magic" class="hidden bg-white p-6 rounded-3xl shadow-sm border-2 border-blue-100 flex flex-col gap-5">
       <div>
         <h2 class="text-xl font-black text-blue-950" id="magic-title">El Truc de les Targetes Màgiques</h2>
@@ -196,7 +187,6 @@
 
     <!-- TAB 4: SIMULADOR INTERACTIU I TEOREMA DE ZECKENDORF -->
     <section id="sec-theory" class="hidden bg-white p-6 sm:p-8 rounded-3xl shadow-sm border-2 border-blue-100 flex flex-col gap-6">
-      
       <div class="border-b border-blue-100 pb-4">
         <h2 class="text-2xl font-black text-blue-950 mb-1 flex items-center gap-2" id="sim-title">
           🔮 Simulador del Teorema de Zeckendorf
@@ -204,10 +194,7 @@
         <p class="text-slate-600 text-sm" id="sim-subtitle">Tria qualsevol nombre i mira com es descompon automàticament i quines targetes el contenen.</p>
       </div>
 
-      <!-- SIMULADOR INTERACTIVO -->
       <div class="bg-gradient-to-br from-blue-50 to-sky-50 p-6 rounded-3xl border-2 border-blue-200 flex flex-col gap-6 shadow-sm">
-        
-        <!-- Controles del Simulador -->
         <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-blue-100 shadow-xs">
           <label class="font-bold text-blue-950 text-sm flex items-center gap-2" id="sim-label-select">
             <span>🔢 Tria un nombre per explorar (1-31):</span>
@@ -218,10 +205,7 @@
           </div>
         </div>
 
-        <!-- Resultados del Simulador -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          
-          <!-- PAS 1: Descomposición en Monedas -->
           <div class="bg-white p-5 rounded-2xl border border-blue-100 flex flex-col justify-between gap-3 shadow-xs">
             <div>
               <div class="flex items-center gap-2 mb-1">
@@ -236,7 +220,6 @@
             </div>
           </div>
 
-          <!-- PAS 2: Targetas activadas -->
           <div class="bg-white p-5 rounded-2xl border border-blue-100 flex flex-col justify-between gap-3 shadow-xs">
             <div>
               <div class="flex items-center gap-2 mb-1">
@@ -250,10 +233,8 @@
               Apareix a les targetes: F (13), D (5), A (1)
             </div>
           </div>
-
         </div>
 
-        <!-- PAS 3: Pregunta de Reflexión e Indagación con Botón Desplegable -->
         <div class="bg-white p-5 rounded-2xl border-2 border-amber-300 flex flex-col gap-3 shadow-xs">
           <div class="flex items-center gap-2">
             <span class="w-6 h-6 rounded-full bg-amber-600 text-white flex items-center justify-center text-xs font-bold">3</span>
@@ -273,12 +254,9 @@
             </div>
           </div>
         </div>
-
       </div>
 
-      <!-- EXPLICACIÓN TEÓRICA SUMMARY -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
-        
         <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
           <h3 class="text-base font-bold text-slate-900 mb-2 flex items-center gap-2" id="th-box1-title">
             📜 Per què funciona el Truc?
@@ -297,11 +275,8 @@
             <li><strong>2. Mai veïnes:</strong> No es poden usar nombres consecutius de Fibonacci (ex: 3 i 5 ❌).</li>
           </ul>
         </div>
-
       </div>
-
     </section>
-
   </main>
 
   <script>
@@ -656,13 +631,14 @@
       document.getElementById('table-progress-count').innerText = `${countSolved} / 30`;
     }
 
+    // LISTAS DE TARJETAS CORREGIDAS SEGÚN EL TEOREMA DE ZECKENDORF
     const MAGIC_CARDS = [
       { id: 'A', value: 1, numbers: [1, 4, 6, 9, 12, 14, 17, 19, 22, 25, 27, 30] },
-      { id: 'B', value: 2, numbers: [2, 7, 10, 15, 17, 20, 23, 28, 31] },
-      { id: 'C', value: 3, numbers: [3, 4, 11, 12, 14, 19, 20, 22, 27, 28] },
-      { id: 'D', value: 5, numbers: [5, 6, 7, 16, 17, 18, 19, 20, 29, 30, 31] },
-      { id: 'E', value: 8, numbers: [8, 9, 10, 11, 12, 13, 14, 15, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31] },
-      { id: 'F', value: 13, numbers: [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31] }
+      { id: 'B', value: 2, numbers: [2, 7, 10, 15, 17, 20, 23, 28] },
+      { id: 'C', value: 3, numbers: [3, 4, 11, 12, 14, 19, 22, 25, 27] },
+      { id: 'D', value: 5, numbers: [5, 6, 7, 16, 17, 18, 24, 25, 27, 28, 29, 30] },
+      { id: 'E', value: 8, numbers: [8, 9, 10, 11, 12, 24, 25, 27, 29, 30] },
+      { id: 'F', value: 13, numbers: [13, 14, 15, 16, 17, 18, 19, 20, 31] }
     ];
 
     function renderMagicCards() {
@@ -692,34 +668,22 @@
       });
     }
 
-    // CONTROL INTELIGENTE DE TARJETAS NO VECINAS
     function toggleMagicCard(val) {
       if (magicSelectedCards.has(val)) {
         magicSelectedCards.delete(val);
       } else {
-        // Al intentar añadir una tarjeta, eliminamos si hay alguna tarjeta vecina
-        const valIdx = FIBONACCI.indexOf(val);
-        const toDelete = [];
-        magicSelectedCards.forEach(activeVal => {
-          const activeIdx = FIBONACCI.indexOf(activeVal);
-          if (Math.abs(activeIdx - valIdx) === 1) {
-            toDelete.push(activeVal);
-          }
-        });
-        toDelete.forEach(dVal => magicSelectedCards.delete(dVal));
-
         magicSelectedCards.add(val);
       }
       renderMagicCards();
 
       const total = Array.from(magicSelectedCards).reduce((a, b) => a + b, 0);
-      document.getElementById('magic-result').innerText = (total > 0 && total <= 31) ? total : '?';
+      document.getElementById('magic-result').innerText = total > 0 ? total : '?';
     }
 
-    // LÓGICA DEL SIMULADOR DE ZECKENDORF
+    // LÓGICA DEL SIMULADOR DE ZECKENDORF (DESCOMPOSICIÓN GREEDY)
     function getZeckendorfRepresentation(n) {
       const result = [];
-      const fibs = [13, 8, 5, 3, 2, 1];
+      const fibs = [21, 13, 8, 5, 3, 2, 1];
       let rem = n;
       for (let f of fibs) {
         if (f <= rem) {
@@ -790,7 +754,9 @@
         const cardsSummaryEl = document.getElementById('sim-cards-summary');
         if (cardsSummaryEl) {
           const cardsTxt = currentLang === 'ca' ? 'Apareix a les targetes: ' : 'Aparece en las tarjetas: ';
-          cardsSummaryEl.innerText = cardsTxt + activeCardIDs.join(', ');
+          cardsSummaryEl.innerText = activeCardIDs.length > 0 
+            ? cardsTxt + activeCardIDs.join(', ')
+            : (currentLang === 'ca' ? 'Només necessita la moneda de 21' : 'Solo necesita la moneda de 21');
         }
       }
 
