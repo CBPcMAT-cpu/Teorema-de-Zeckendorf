@@ -692,16 +692,28 @@
       });
     }
 
+    // CONTROL INTELIGENTE DE TARJETAS NO VECINAS
     function toggleMagicCard(val) {
       if (magicSelectedCards.has(val)) {
         magicSelectedCards.delete(val);
       } else {
+        // Al intentar añadir una tarjeta, eliminamos si hay alguna tarjeta vecina
+        const valIdx = FIBONACCI.indexOf(val);
+        const toDelete = [];
+        magicSelectedCards.forEach(activeVal => {
+          const activeIdx = FIBONACCI.indexOf(activeVal);
+          if (Math.abs(activeIdx - valIdx) === 1) {
+            toDelete.push(activeVal);
+          }
+        });
+        toDelete.forEach(dVal => magicSelectedCards.delete(dVal));
+
         magicSelectedCards.add(val);
       }
       renderMagicCards();
 
       const total = Array.from(magicSelectedCards).reduce((a, b) => a + b, 0);
-      document.getElementById('magic-result').innerText = total > 0 ? total : '?';
+      document.getElementById('magic-result').innerText = (total > 0 && total <= 31) ? total : '?';
     }
 
     // LÓGICA DEL SIMULADOR DE ZECKENDORF
@@ -805,7 +817,6 @@
       }
     }
 
-    // Inicialització immediata
     setLanguage('ca');
   </script>
 </body>
