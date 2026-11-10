@@ -179,7 +179,7 @@
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3" id="table-grid"></div>
     </section>
 
-    <!-- TAB 3: TARGETES MÀGIQUES (7 TARGETES A-G ZECKENDORF 1-30) -->
+    <!-- TAB 3: TARGETES MÀGIQUES (7 TARGETES ZECKENDORF PERFECTES) -->
     <section id="sec-magic" class="hidden bg-white p-6 sm:p-8 rounded-3xl shadow-sm border-2 border-blue-100 flex flex-col gap-6">
       <div>
         <h2 class="text-2xl font-black text-blue-950 flex items-center gap-2" id="magic-title">
@@ -386,6 +386,44 @@
       }
     };
 
+    // ALGORITMO DINÁMICO IMPERFECTO -> PERFECTO (ZECKENDORF)
+    function getZeckendorfRepresentation(n) {
+      const result = [];
+      const fibs = [21, 13, 8, 5, 3, 2, 1];
+      let rem = n;
+      for (let f of fibs) {
+        if (f <= rem) {
+          result.push(f);
+          rem -= f;
+        }
+      }
+      return result;
+    }
+
+    // ESTRUCTURA BASE DE LAS 7 TARJETAS (SUS NÚMEROS SE CALCULAN DINÁMICAMENTE A CONTINUACIÓN)
+    const MAGIC_CARDS_7 = [
+      { id: 'A', value: 1, color: 'from-blue-500 to-indigo-600', badge: 'bg-blue-600', numbers: [] },
+      { id: 'B', value: 2, color: 'from-emerald-500 to-teal-600', badge: 'bg-emerald-600', numbers: [] },
+      { id: 'C', value: 3, color: 'from-violet-500 to-purple-600', badge: 'bg-purple-600', numbers: [] },
+      { id: 'D', value: 5, color: 'from-amber-500 to-orange-600', badge: 'bg-amber-600', numbers: [] },
+      { id: 'E', value: 8, color: 'from-rose-500 to-pink-600', badge: 'bg-rose-600', numbers: [] },
+      { id: 'F', value: 13, color: 'from-cyan-500 to-blue-600', badge: 'bg-cyan-600', numbers: [] },
+      { id: 'G', value: 21, color: 'from-fuchsia-500 to-purple-700', badge: 'bg-fuchsia-600', numbers: [] }
+    ];
+
+    // CÁLCULO DINÁMICO MATEMÁTICAMENTE INFALIBLE DE CADA TARJETA (1 A 30)
+    function computeCardNumbers() {
+      MAGIC_CARDS_7.forEach(card => card.numbers = []);
+      for (let i = 1; i <= 30; i++) {
+        const rep = getZeckendorfRepresentation(i);
+        MAGIC_CARDS_7.forEach(card => {
+          if (rep.includes(card.value)) {
+            card.numbers.push(i);
+          }
+        });
+      }
+    }
+
     function setLanguage(lang) {
       currentLang = lang;
       document.getElementById('lang-ca').className = lang === 'ca' 
@@ -443,6 +481,7 @@
     }
 
     function renderUI() {
+      computeCardNumbers();
       renderBank();
       renderSack();
       renderTable();
@@ -645,17 +684,6 @@
       document.getElementById('table-progress-count').innerText = `${countSolved} / 30`;
     }
 
-    // 7 TARJETAS CORRESPONDIENTES A ZECKENDORF (VALORES FIBONACCI 1-21, RANGO 1-30)
-    const MAGIC_CARDS_7 = [
-      { id: 'A', value: 1, color: 'from-blue-500 to-indigo-600', badge: 'bg-blue-600', numbers: [1, 4, 6, 9, 12, 14, 17, 19, 22, 25, 27, 30] },
-      { id: 'B', value: 2, color: 'from-emerald-500 to-teal-600', badge: 'bg-emerald-600', numbers: [2, 7, 10, 15, 17, 20, 23, 28] },
-      { id: 'C', value: 3, color: 'from-violet-500 to-purple-600', badge: 'bg-purple-600', numbers: [3, 4, 11, 12, 14, 19, 22, 25, 27] },
-      { id: 'D', value: 5, color: 'from-amber-500 to-orange-600', badge: 'bg-amber-600', numbers: [5, 6, 7, 16, 17, 18, 24, 25, 27, 28, 29, 30] },
-      { id: 'E', value: 8, color: 'from-rose-500 to-pink-600', badge: 'bg-rose-600', numbers: [8, 9, 10, 11, 12, 24, 25, 27, 29, 30] },
-      { id: 'F', value: 13, color: 'from-cyan-500 to-blue-600', badge: 'bg-cyan-600', numbers: [13, 14, 15, 16, 17, 18, 19, 20] },
-      { id: 'G', value: 21, color: 'from-fuchsia-500 to-purple-700', badge: 'bg-fuchsia-600', numbers: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30] }
-    ];
-
     function renderMagicCards() {
       const container = document.getElementById('cards-container');
       if (!container) return;
@@ -702,7 +730,7 @@
             `).join('')}
           </div>
 
-          <!-- Pie de tarjeta (Valor Oculto/Didáctico) -->
+          <!-- Pie de tarjeta -->
           <div class="mt-2 pt-2 border-t text-[10px] font-bold flex justify-between items-center ${isSel ? 'border-white/20 text-white/80' : 'border-slate-100 text-slate-400'}">
             <span>Base Fibonacci:</span>
             <span class="text-xs font-black ${isSel ? 'text-amber-300' : 'text-slate-700'}">${card.value}</span>
@@ -733,20 +761,6 @@
       let total = Array.from(magicSelectedCards).reduce((a, b) => a + b, 0);
       const resEl = document.getElementById('magic-result');
       resEl.innerText = (total > 0 && total <= 30) ? total : '?';
-    }
-
-    // LÓGICA ZECKENDORF GREEDY (1-30)
-    function getZeckendorfRepresentation(n) {
-      const result = [];
-      const fibs = [21, 13, 8, 5, 3, 2, 1];
-      let rem = n;
-      for (let f of fibs) {
-        if (f <= rem) {
-          result.push(f);
-          rem -= f;
-        }
-      }
-      return result;
     }
 
     function toggleReflectAnswer() {
